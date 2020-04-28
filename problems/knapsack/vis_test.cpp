@@ -14,6 +14,12 @@ int main(void) {
   bitset<MAXN> can(1);
   for (int i=0; i<n; ++i) {
     int x;
+    scanf("%d", &x);
+    std::cout << "can:   " << can << std::endl;
+    std::cout << "x:     " << x << std::endl;
+    std::cout << "can<<x " << (can << x) << std::endl;
+    std::cout << "can |  " << (can | (can<<x)) << std::endl;
+    std::cout << "----------------------------------" << std::endl;
     can |= (can<<x);
   }
   printf("%s", can[target] ? "YES" : "NO");
