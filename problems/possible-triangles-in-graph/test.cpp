@@ -1,51 +1,32 @@
 #include <iostream>
-#include <sstream>
 #include <bitset>
 #include <vector>
-#include <string>
-#include <utility>
-#include <map>
 #include <cstdio>
 
 using namespace std;
 
-void input(map<int, vector<int>>& g, int n);
-void disp(map<int, vector<int>>& g);
+static vector<vector<int>> graph = {
+  {1,2},
+  {0,2},
+  {0,1},
+  {0,1}
+};
 
 int main(void) {
-  int n;
-  scanf("%d", &n);
-  map<int, vector<int>> g;
-  input(g, n);
-
+  int n = graph.size();
+  bitset<4> bits[n];
+  for (int i=0; i<n; ++i) {
+    for (auto& c: graph[i]) {
+      bits[i][c] = 1;
+    }
+  }
+  int res = 0;
+  for (int i=0; i<n; ++i) {
+    for (int j=i+i; j<n; ++j) {
+      res += (bits[i] & bits[j]).count();
+    }
+  }
+  cout << res / 3 << endl;
   return 0;
 }
-
-void disp(map<int, vector<int>>& g) {
-  for (auto& c : g) {
-    cout << c.first << ": ";
-    for (auto& n : c.second) {
-      cout << n << ",";
-    }
-    cout << endl;
-  }
-}
-
-void input(map<int, vector<int>>& g, int n) {
-  for (int i=0; i<n; ++i) {
-    int c;
-    cin >> c;
-    // get connections
-    string s;
-    getline(cin, s);
-    istringstream iss(s);
-    vector<int> conn;
-    char ch;
-    while (iss >> ch) {
-      conn.push_back(ch - '0');
-    }
-    g.insert(make_pair(c, conn));
-  }
-}
-
-
+ 
