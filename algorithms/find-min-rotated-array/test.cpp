@@ -12,8 +12,7 @@ int findmin(int* a) {
   int res = -1;
   while (left <= right) {
     int m = left + (right-left)/2;
-    cout << left << " " << right << " ans: " << res << endl;
-    if (a[m] <= right) {
+    if (a[m] <= a[right]) {
       // a[m] at this point is a good answer
       res = a[m];
       // continue searching for even smaller numbers
