@@ -1,37 +1,38 @@
 #include <iostream>
 using namespace std;
 
-// WITH DUPLICATES !
+// WITH NO DUPLICATES
 int findmin(int* a, int n) {
   int left = 0;
   int right = n-1;
-  if (a[left] < a[right]) {
-    return a[left];
-  }
   int res = INT_MAX;
   while (left <= right) {
     int m = left + (right - left) / 2;
+    // array has no rotations 
+    if (a[left] < a[right]) {
+      return a[left];
+    }
+    // left side sorted
+    if (a[m] < res) {
+      res = a[m];
+    }
     if (a[m] > a[right]) {
-      res = min(res, a[m]);
       left = m+1;
     } 
-    else if (a[m] < a[right]) {
-      res = min(res, a[m]);
-      right = m;
-    } else {
-      res = a[m];
-      right--;
+    // right side sorted
+    else {
+      right = m-1;
     }
   }
-  return a[left];
+  return res;
 }
 
 int main(void) {
   int n = 7;
   int a[3][7] = {
-    {3,3,3,3,0,1,3},
-    {3,1,3,3,3,3,3},
-    {3,0,1,2,2,2,3}
+    {5,6,0,1,2,3,4},
+    {3,4,5,6,7,0,1},
+    {7,6,5,4,3,2,1}
   };
   for (int i=0; i<3; ++i) {
     for (auto& c: a[i]) {
