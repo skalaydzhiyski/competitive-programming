@@ -1,0 +1,23 @@
+#include <iostream>
+#include <vector>
+#include <vector> 
+using namespace std;
+
+static vector<vector<int>> b {
+  {1,2,3},
+  {4,5,6},
+  {7,8,9}
+};
+
+void solve(int row, int col, int start_row, end_row, int start_col, int end_col) {
+  if (col == end_col) {
+    return;
+  }
+  solve(row, col+1,, start_row, end_row, start_col, end_col); 
+}
+
+int main(int argc, char** argv) {
+  //solve(0,0, 0,3, 0,3);
+  return 0;
+}
+
