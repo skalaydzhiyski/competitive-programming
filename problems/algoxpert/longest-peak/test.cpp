@@ -3,12 +3,6 @@
 #include <climits>
 using namespace std;
 
-int getdir(int x, int y) {
-  if (x == y) return 0;
-  if (x < y) return 1;
-  return -1;
-}
-
 int solve(const vector<int>& a) {
   int n = a.size();
   if (n < 2) return 0;
@@ -43,8 +37,6 @@ int solve(const vector<int>& a) {
 
 int main(void) {
   vector<int> a {1,2,3,3,4,0,10,6,5,-1,-3,2,3};
-  //vector<int> a {1,3,2};
-  //vector<int> a {1,2,3,2,1,1};
   cout << solve(a) << endl;
   return 0;
 }
