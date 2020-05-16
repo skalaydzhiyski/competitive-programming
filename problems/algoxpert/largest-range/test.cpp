@@ -5,12 +5,13 @@
 #include <bitset>
 using namespace std;
 
-vector<int> solve(const vector<int>& a) {
+const vector<int> solve_old(const vector<int>& a) {
   unordered_map<int, int> d, links;
   int n = a.size();
   for (int i=0; i<n; ++i) {
     d.insert({a[i], a[i]+1});
   }
+  // find start -> end pair (connected sequence)
   for (int i=0; i<n; ++i) {
     int first = a[i];
     int k = a[i];
@@ -40,10 +41,41 @@ vector<int> solve(const vector<int>& a) {
   return {res.first, res.second};
 }
 
+const vector<int> solve(const vector<int>& a) {
+  int n = a.size();
+  vector<int> res;
+  unordered_map<int, bool> m;
+  for (int i=0; i<n; ++i) {
+    m[a[i]] = 1;
+  }
+  int max = 0;
+  for (int i=0; i<n; ++i) {
+    int left = a[i] - 1;
+    int right = a[i] + 1;
+    int len = 1;
+    // stretch left
+    while (m.find(left) != m.end()) {
+      len++;
+      left--;
+    }
+    while (m.find(right) != m.end()) {
+      len++;
+      right++;
+    }
+    if (len > max) {
+      max = len;
+      res = {left+1, right-1};
+    }
+  }
+  return res;
+}
+
 int main(void) {
   vector<int> a {1, 11, 3, 0, 15, 5, 2, 4, 10, 7, 12, 6};
   auto res = solve(a);
-  cout << res.first << " " << res.second << endl;
+  for (auto& n: res) {
+    cout << n << endl;
+  }
   return 0;
 }
 
