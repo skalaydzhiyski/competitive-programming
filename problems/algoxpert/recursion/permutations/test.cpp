@@ -3,6 +3,7 @@
 #include <algorithm>
 using namespace std;
 
+// Solution 2 
 void solve(vector<vector<int>>& res, int i, vector<int>& a) {
   if (i == a.size()-1) {
     res.push_back(a);
