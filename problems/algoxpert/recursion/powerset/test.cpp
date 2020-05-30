@@ -2,20 +2,24 @@
 #include <vector>
 using namespace std;
 
-// iterative
-void solve_iter(vector<vector<int>>& res, const vector<int>& a) {
-  for (int i=0; i<a.size(); ++i) {
-    int size = res.size();
-    for (int j=0; j<size; ++j) {
+void solve_iter(vector<vector<int>>& res, vector<int>& a) {
+  int n = a.size();
+  // for every elemnt in the master set
+  for (int i=0; i<n; ++i) {
+    int current_size = res.size();
+    // add the current elemnt to every set from ther resulting powerset
+    for (int j=0; j<current_size; ++j) {
+      // we need to keep the copy of the old set res[j]
       auto current = res[j];
-      auto new_set = current;
-      new_set.push_back(a[i]);
-      res.push_back(new_set);
+      // add the current number to the new set 
+      current.push_back(a[i]);
+      // and lastly add the new set to the resulting powerset
+      res.push_back(current);
     }
   }
 }
 
-vector<vector<int>> powerset(const vector<int>& a) {
+vector<vector<int>> powerset(vector<int>& a) {
   vector<vector<int>> res{{}};
   solve_iter(res, a);
   return res;
