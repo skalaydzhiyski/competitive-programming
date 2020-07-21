@@ -9,23 +9,23 @@ using namespace std;
  * which are NOT the current number;
  * */
 void solve2(vector<vector<int>>& res, vector<int> current, vector<int>& a) {
-  if (a.size() == 0) {
+  int n = a.size();
+  if (n == 0) {
     res.push_back(current);
-  } else {
-    for (int i=0; i<a.size(); ++i) {
-      int c = a[i];
-      auto rest = [&a, &c]() {
-        vector<int> res;
-        res.reserve(a.size()-1);
-        for (int j=0; j<a.size(); ++j) {
-          if (a[j] != c) {
-            res.push_back(a[j]);
-          }
+    return;
+  } 
+  for (int i=0; i<n; ++i) {
+    int c = a[i];
+    auto rest = [&]() {
+      vector<int> res(n-1);
+      for (int j=0; j<n; ++j) {
+        if (a[j] != c) {
+          res.push_back(a[j]);
         }
-        return res;
-      }();
-      solve2(res, current, rest);
-    }
+      }
+      return res;
+    }();
+    solve2(res, current, rest);
   }
 }
 

@@ -7,7 +7,7 @@ void solve_iter(vector<vector<int>>& res, vector<int>& a) {
   // for every elemnt in the master set
   for (int i=0; i<n; ++i) {
     int current_size = res.size();
-    // add the current elemnt to every set from ther resulting powerset
+    // add the current element to every set from ther resulting powerset
     for (int j=0; j<current_size; ++j) {
       // we need to keep the copy of the old set res[j]
       auto current = res[j];
