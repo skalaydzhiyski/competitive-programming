@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+# ------------------------------------------------------------
 class Node:
   def __init__(self, value):
     self.value = value
@@ -87,35 +88,54 @@ class Node:
             prev.right = None
         break
     return self
+# ------------------------------------------------------------
+
+
+def inorder(root):
+  res = []
+  if root is None:
+    return []
+  res += inorder(root.left)
+  res.append(root.value)
+  res += inorder(root.right)
+  return res
+
+def preorder(root):
+  res = []
+  if root is None:
+    return []
+  res.append(root.value)
+  res += preorder(root.left)
+  res += preorder(root.right)
+  return res
+
+def postorder(root):
+  res = []
+  if root is None:
+    return []
+  res += postorder(root.left)
+  res += postorder(root.right)
+  res.append(root.value)
+  return res
+
+def inOrderTraverse(root, array):
+  return inorder(root)
+
+
+def preOrderTraverse(root, array):
+  return preorder(root)
+
+
+def postOrderTraverse(root, array):
+  return postorder(root)
+
 
 def parse_test(root, test):
   for t in test:
     arg = t['arguments'][0]
     meth = t['method']
     Node.__dict__[meth](root, arg)
-
-# TODO: generate inorder string repr of the traversal
-def solve(root, low, high):
-  if root is None:
-    return True
-  if root.value >= low and root.value < high:
-    return solve(root.left, low, root.value) & solve(root.right, root.value, high)
-  return False
-
-class BST:
-  def __init__(self, value):
-    self.value = value
-    self.left = None
-    self.right = None
-
-
-def validateBst(root):
-  res = solve(root, -9999999, 999999)
-  print('result:')
-  print(res)
-  return res
-
-
+  
 if __name__ == '__main__':
   root = Node(10)
   test = [
@@ -123,39 +143,11 @@ if __name__ == '__main__':
     {"arguments": [15], "method": "insert"},
     {"arguments": [5], "method": "insert"},
     {"arguments": [2], "method": "insert"},
-    {"arguments": [13], "method": "insert"},
     {"arguments": [22], "method": "insert"},
-    {"arguments": [10], "method": "insert"},
     {"arguments": [1], "method": "insert"},
-    {"arguments": [14], "method": "insert"},
   ]
   parse_test(root, test)
-  #print(validateBst(root))
-
-  # new where we have a wrong entry in the tree 
-  print('BAD')
-  root = Node(10)
-  root.left = Node(5)
-  root.left.right = Node(10)
-  root.right = Node(15)
-  print(validateBst(root))
-
-  print('-' * 50)
-  print('GOOD')
-  root = Node(10)
-  root.left = Node(5)
-  root.right = Node(15)
-  root.right.left = Node(10)
-  #print(validateBst(root))
-
-  print('-' * 50)
-  print('GOOD')
-  root = Node(10)
-  root.left = Node(5)
-  root.right = Node(10)
-  root.right.right = Node(15)
-  print(validateBst(root))
-
-  
-
+  print(inorder(root))
+  print(postorder(root))
+  print(preorder(root))
 
