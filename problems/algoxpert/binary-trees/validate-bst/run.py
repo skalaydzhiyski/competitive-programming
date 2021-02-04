@@ -94,7 +94,7 @@ def parse_test(root, test):
     meth = t['method']
     Node.__dict__[meth](root, arg)
 
-# TODO: generate inorder string repr of the traversal
+# TODO: IMPLEMENT THE SOLUTION ITERATIVELY TO PRACTICE !
 def solve(root, low, high):
   if root is None:
     return True
@@ -110,9 +110,8 @@ class BST:
 
 
 def validateBst(root):
+  # TODO: at some point try to implement the iterative solution using stacks as well .
   res = solve(root, -9999999, 999999)
-  print('result:')
-  print(res)
   return res
 
 
@@ -146,7 +145,7 @@ if __name__ == '__main__':
   root.left = Node(5)
   root.right = Node(15)
   root.right.left = Node(10)
-  #print(validateBst(root))
+  print(validateBst(root))
 
   print('-' * 50)
   print('GOOD')
