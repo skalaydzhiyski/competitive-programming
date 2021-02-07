@@ -9,11 +9,12 @@
 
 class Solution:
     def climbStairs(self, n: int) -> int:
-      res = 0
-      dp = [1,1]
+      last,res = 1,1
       for x in range(2, n):
-        dp.append(dp[x-1] + dp[x-2])
-      return dp[-1]
+        new = last+res
+        last = res
+        res = new
+      return res
 
 
 if __name__ == '__main__':
