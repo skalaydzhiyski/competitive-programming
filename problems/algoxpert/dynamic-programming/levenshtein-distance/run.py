@@ -13,9 +13,11 @@ def solve(s1, s2):
   dp += [[x] + [0]*(size2-1) for x in range(1,size1)]
   for i in range(1, size1):
     for j in range(1, size2):
-      diag, left, top = dp[i-1][j-1], dp[i][j-1], dp[i-1][j]
+      diag = dp[i-1][j-1] 
+      left = dp[i][j-1]
+      top  = dp[i-1][j]
       dp[i][j] = min([diag, left, top])+1 if s1[i-1] != s2[j-1] else diag
-  #show(dp)
+  show(dp)
   return dp[-1][-1]
 
 
