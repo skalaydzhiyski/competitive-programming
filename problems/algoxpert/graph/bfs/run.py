@@ -1,10 +1,5 @@
 #!/usr/bin/python3
 
-
-# Do not edit the class below except
-# for the breadthFirstSearch method.
-# Feel free to add new properties
-# and methods to the class.
 class Node:
   def __init__(self, name):
     self.children = []
@@ -14,7 +9,14 @@ class Node:
     self.children.append(Node(name))
     return self
 
-  def breadthFirstSearch(self, array):
-    # Write your code here.
-    pass
+  def breadthFirstSearch(self, res):
+    res.append(self.name)
+    q = self.children
+    for x in q:
+      res.append(x.name)
+      q += x.children
+    return res
+
+
+
 
