@@ -5,16 +5,25 @@ import time
 # iterative implementation
 def dfs(g, start):
   res = []
+  to_visit = [start]
+  while len(to_visit):
+    current = to_visit.pop()
+    res.append(current)
+    for node in g[current]:
+      if node not in res:
+        to_visit.append(node)
+    print(f'stack: {to_visit}')
+    print(f'visitex: {res}')
+    print(f'current: {current}')
+    print()
   return res
 
 
 # recursive implementation
-'''
-def dfs(g, node, res):
+def _dfs(g, node, res):
   res.append(node)
   for x in g[node]:
     dfs(g, x, res)
-'''
 
 
 n = 9
