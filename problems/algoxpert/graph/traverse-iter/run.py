@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-import time 
+from time import time
+
 
 def log(res, to_visit, current):
   print(f'stack: {to_visit}')
@@ -15,10 +16,11 @@ def traverse(g, start, algo='dfs'):
   while len(to_visit):
     current = to_visit.pop() if algo == 'dfs' else to_visit.pop(0)
     res.append(current)
-    for node in g[current]:
+    neigh = g[current] if algo == 'bfs' else list(reversed(g[current]))
+    for node in neigh:
       if node not in res:
         to_visit.append(node)
-    log(res, to_visit, current)
+    #log(res, to_visit, current)
   return res
 
 
@@ -26,12 +28,15 @@ def traverse(g, start, algo='dfs'):
 def _dfs(g, node, res):
   res.append(node)
   for x in g[node]:
-    dfs(g, x, res)
+    _dfs(g, x, res)
 
-def _bfs(g, node, res):
+def _bfs(g, node, to_visit, res):
   res.append(node)
-  for x in g[node]:
-    dfs(g, x, res)
+  to_visit += g[node]
+  for x in to_visit:
+    current = to_visit.pop(0)
+    _bfs(g, current, to_visit, res)
+
 
 
 n = 9
@@ -46,6 +51,19 @@ g = {
     8: [],
     9: [],
 }
-res = traverse(g, 1)
+iter_dfs = traverse(g,1)
+print(iter_dfs)
+rec_dfs = []
+_dfs(g, 1, rec_dfs)
+print(rec_dfs)
+print(rec_dfs == iter_dfs)
+
+# bfs test
+iter_bfs = traverse(g, 1, 'bfs')
+print(iter_bfs)
+res = []
+_bfs(g, 1, [], res)
 print(res)
+print(res == iter_bfs)
+
 
