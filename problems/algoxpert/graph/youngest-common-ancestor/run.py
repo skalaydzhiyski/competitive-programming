@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+import time
+
 
 # This is an input class. Do not edit.
 class AncestralTree:
@@ -7,7 +9,7 @@ class AncestralTree:
     self.ancestor = None
 
 def solve(root, d1, d2):
-  # todo: write your solution here
+  # write your solution here
   pass
 
 
