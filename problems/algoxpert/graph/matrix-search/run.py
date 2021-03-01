@@ -14,6 +14,19 @@ def show(m, i, j, visited, next_):
 # ---------------------------------------
 
 
+# needed only for "zig zag depth first traversal"
+def _get_next(m, i, j, visited, size):
+  res = []
+  if j+1 < size and not (i, j+1) in visited:
+    res.append((i,j+1))
+  elif j-1 >= 0 and not (i, j-1) in visited:
+    res.append((i,j-1))
+  elif i+1 < size and not (i+1, j) in visited:
+    res.append((i+1,j))
+  elif i-1 >= 0 and not (i-1, j) in visited:
+    res.append((i-1,j))
+  return res
+
 def get_next(m, i, j, visited, size):
   res = []
   if j+1 < size and not (i, j+1) in visited:
@@ -46,6 +59,6 @@ size = 4
 m = [['_' for _ in range(size)] for _ in range(size)]
 print()
 # TODO: fix the dfs algo to use only one go to traverse the grid
-search(m, size)
-#search(m, size, algo='bfs')
+#search(m, size)
+search(m, size, algo='bfs')
 
