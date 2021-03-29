@@ -8,7 +8,7 @@ def check(s):
 
 
 def solve(s):
-  res = -1
+  res = 0
   unq = set(s)
   counts = Counter(s)
   combs = list(combinations(set(s), 2))
@@ -19,7 +19,8 @@ def solve(s):
       res = max(res, len(new))
   return res
 
-s = "beabeefeab"
+_ = input()
+s = input()
 res = solve(s)
 print(res)
 
