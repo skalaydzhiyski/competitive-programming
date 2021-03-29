@@ -9,7 +9,6 @@ def solve(a, t):
       dp[i] = min(dp[i], dp[i-x]+1)
   res = dp[-1]
   return res if res != m else -1
-      
 
 def minNumberOfCoinsForChange(t, a):
   return solve(a, t)

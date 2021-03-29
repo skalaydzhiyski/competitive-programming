@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+
 def solve(a):
   if len(a) <= 2: return max(a + [0])
   last = a[0]

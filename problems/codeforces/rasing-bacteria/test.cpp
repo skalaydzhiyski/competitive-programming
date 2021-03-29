@@ -3,7 +3,7 @@
 #include <bitset>
 #include <cstdio>
 
-int main(void) {
+int main(int argc, char** argv) {
   int x, total = 0;
   scanf("%d", &x);
   std::bitset<32> bx(x);
