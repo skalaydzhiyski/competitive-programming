@@ -1,10 +1,11 @@
-#!/usr/bin/python3
+#!/usr/bin/python2
 from collections import Counter
 from itertools import combinations
 
 
 def check(s):
   return not any([s[i] == s[i+1] for i in range(len(s)-1)])
+
 
 
 def solve(s):

@@ -1,7 +1,6 @@
 #include <string>
 #include <cstdio>
 
-// used for debugging
 std::string tobits(const int x) {
   std::string res = "";
   int n = 16;
@@ -11,23 +10,19 @@ std::string tobits(const int x) {
   return res;
 }
 
-int main(void) {
-  // works for small N, for larger N use std::bitset!
+int main(int argc, const char** argv) {
   int n, s;
   scanf("%d %d", &n, &s);
   int a[n];
-  for (int i=0; i<n; ++i) {
+
+  for (int i=0; i<n; ++i)
     scanf("%d", &a[i]);
-  }
-  /* 1<<n = 2^n => and it gives us the number of bits we will need
-     to indicate the indices for the subset sums */
+
   for (int mask=0; mask<(1<<n); ++mask) {
     long long sum = 0;
     for (int i=0; i<n; ++i) {
-      // if the bit is ON we add the number to the sum
-      if (mask & (1<<i)) {
+      if (mask & (1<<i))
         sum += a[i];
-      }
       if (sum == s) {
         puts("YES");
         return 0;
