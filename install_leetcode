@@ -1,0 +1,9 @@
+npm install -g HwangTaeHyun/leetcode-cli
+
+Notes:
+  1. install it after cloning from skydragon with ./bin/install then install libsecret-tools for linux and not sure about Mac.
+  2. install and enable the cookie.chrome/cookie/firefox plugins
+  3. remove the lintcode and leetcode.cn  plugins
+  4. login
+
+
