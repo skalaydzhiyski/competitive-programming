@@ -20,4 +20,6 @@ class Solution:
       else:
         res.append(nums2[j])
         j += 1
-    for i in range(m+n): nums1[i] = res[i]
+
+    for i in range(m+n):
+      nums1[i] = res[i]
