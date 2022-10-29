@@ -9,7 +9,7 @@ class Solution:
     expected = []
     for k in range(1, max(heights) + 1): # O(max(heights)) < 100
       if k not in m: continue
-      expected += [k for _ in range(m[k])]  
+      expected += [k for _ in range(m[k])]
       
     # get num diffs
     res = sum([x != y for x,y in zip(heights, expected)])
