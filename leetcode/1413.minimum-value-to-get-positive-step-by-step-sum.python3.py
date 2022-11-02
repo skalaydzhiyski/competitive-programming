@@ -7,5 +7,3 @@ class Solution:
             if running < minpref:
                 minpref = running
         return 1 if minpref > 0 else abs(minpref) + 1
-            
-
