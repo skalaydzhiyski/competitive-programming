@@ -16,9 +16,5 @@ class Solution:
         j = i+1
         count = 1
         m = {s[i]:1}
-      if count > res:
-        res = count
+      res = max(res, count)
     return res
-
-s = 'aaaabcdaaaaaa'
-print(Solution().lengthOfLongestSubstring(s))
