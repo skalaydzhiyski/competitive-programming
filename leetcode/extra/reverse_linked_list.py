@@ -1,7 +1,7 @@
 # Reverse a linked list
 class Node:
-	def __init__(self, val, next=None):
-		self.val = val
+	def __init__(self, value, next=None):
+		self.value = value
 		self.next = next
 
 def solve(head):
@@ -15,7 +15,19 @@ def solve(head):
 	return prev
 
 head = Node(1, Node(2, Node(3, Node(4, Node(5)))))
-res = solve(head)
-while res is not None:
-	print(res.val)
-	res = res.next
+current = head
+
+inorder = ''
+while current is not None:
+	inorder += f'{current.value} -> '
+	current = current.next
+print(inorder)
+
+rev = solve(head)
+
+current = rev
+revorder = ''
+while current is not None:
+	revorder += f'{current.value} -> '
+	current = current.next
+print(revorder)
