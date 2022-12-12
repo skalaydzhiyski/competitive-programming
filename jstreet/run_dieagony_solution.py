@@ -75,8 +75,6 @@ class State:
         view = '\n'.join(map(str.strip, view.split('\n')))
         return view
 
-
-
 die_vars = 'abcdef'
 die = np.array([
     ['c','d','-'],
@@ -114,7 +112,7 @@ while grid[current.pos] != target:
     print(f'to_visit = {[s.S for s in to_visit]}')
     print(f'counter = {counter}'); counter += 1
     print(current)
-    time.sleep(.5)
+    time.sleep(.1)
 
     if len(current.neighbours) == 0:
         _ = to_visit.pop()
@@ -126,12 +124,18 @@ while grid[current.pos] != target:
         if not current.visited[neighbour]:
             face_value = (nstate.S - current.S) / nstate.N
             if face_value % 1 != 0:
+                print(f"""IMPORTANT! face_value NOT A WHOLE NUMBER, skip adding {nstate.S}
+                    ({nstate.S} - {current.S}) / {nstate.N} = {face_value}
+                    """)
                 continue
             else:
                 face_value = str(face_value).split('.')[0]
             if not nstate.die[face] in die_vars:
                 value = nstate.die[face]
                 if value != face_value: continue
+                print(f"""IMPORTANT! DIE MISMATCH, skip adding {nstate.S}
+                    ({nstate.S} - {current.S}) / {nstate.N} = {face_value} (should be {value})
+                    """)
             else:
                 nstate.die[face] = face_value
             to_visit.append(nstate)
