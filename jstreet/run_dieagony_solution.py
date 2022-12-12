@@ -1,45 +1,90 @@
 import numpy as np
-from llist import dllist, dllistnode
+import time
+
+class State:
+    def __init__(self, pos, die, visited, N):
+        self.pos = pos
+        self.die = die
+        self.visited = visited
+        self.neighbours = self._get_neighbour_positions()
+        self.S = grid[self.pos]
+        self.N = N
+
+    def visit(self):
+        self.visited[self.pos] = True
+
+    def make_state_for_neighbour(self, npos):
+        direction = (
+            npos[0] - self.pos[0],
+            npos[1] - self.pos[1]
+        )
+        next_die = self.tip(direction)
+        next_visited = self.visited.copy();
+        next_visited[npos] = True
+        return State(npos, next_die, next_visited, self.N + 1)
+
+    def tip(self, direction):
+        res = self.die.copy()
+        if direction == (0, -1):
+            self._swap(res, left, bottom)
+            self._swap(res, face, left)
+            self._swap(res, face, right)
+        elif direction == (0, 1):
+            self._swap(res, right, bottom)
+            self._swap(res, face, right)
+            self._swap(res, face, left)
+        elif direction == (-1, 0):
+            self._swap(res, up, bottom)
+            self._swap(res, face, up)
+            self._swap(res, face, down)
+        elif direction == (1,0):
+            self._swap(res, down, bottom)
+            self._swap(res, face, down)
+            self._swap(res, face, up)
+        return res
+
+    def _get_neighbour_positions(self):
+        return [
+            (x,y)
+            for x,y in [ # neighbours
+                (self.pos[0] - 1, self.pos[1]    ),
+                (self.pos[0] + 1, self.pos[1]    ),
+                (self.pos[0],     self.pos[1] - 1),
+                (self.pos[0],     self.pos[1] + 1)
+            ]
+            if 0 <= x <= 5
+            and 0 <= y <= 5
+        ]
+
+    def _swap(self, die, x, y):
+        die[x], die[y] = die[y], die[x]
+
+    def __repr__(self):
+        # slow but pretty
+        nvalues = [grid[pos] for pos in self.neighbours]
+        view = f'''
+        pos={self.pos}, S={self.S}, N={self.N}, neighbours={nvalues}
+        ------------------------------------
+        {self.visited[0,:].tolist()} | {self.die[0,:].tolist()}
+        {self.visited[1,:].tolist()} | {self.die[1,:].tolist()}
+        {self.visited[2,:].tolist()} | {self.die[2,:].tolist()}
+        {self.visited[3,:].tolist()} | 
+        {self.visited[4,:].tolist()} | 
+        {self.visited[5,:].tolist()} | 
+        '''
+        view = '\n'.join(map(str.strip, view.split('\n')))
+        return view
 
 
-def swap(die, x, y):
-  die[x], die[y] = die[y], die[x]
 
-def step(die, direction):
-  res = die.copy()
-  center, bottom = (1,1), (0,0)
-  left, right, up, down = (1,0), (1,2), (0,1), (2,1)
-  if direction == (0, -1):
-    swap(res, left, bottom)
-    swap(res, center, left)
-    swap(res, center, right)
-  elif direction == (0, 1):
-    swap(res, right, bottom)
-    swap(res, center, right)
-    swap(res, center, left)
-  elif direction == (-1, 0):
-    swap(res, up, bottom)
-    swap(res, center, up)
-    swap(res, center, down)
-  elif direction == (1,0):
-    swap(res, down, bottom)
-    swap(res, center, down)
-    swap(res, center, up)
-  return res
-
-def get_unvisited_adjacent(pos, visited):
-  positions = [
-    (pos[0] - 1, pos[1]), (pos[0] + 1, pos[1]),
-    (pos[0], pos[1] - 1), (pos[0], pos[1] + 1)
-  ]
-  res = [
-    (x,y) for x,y in positions
-    if 0 <= x <= 5
-    and 0 <= y <= 5
-    and not visited[(x,y)]
-  ]
-  return res
-
+die_vars = 'abcdef'
+die = np.array([
+    ['c','d','-'],
+    ['e','a','f'],
+    ['-','b','-'],
+], dtype='<U3')
+face, bottom          = (1,1), (0,0)
+left, right, up, down = (1,0), (1,2), (0,1), (2,1)
 
 grid = np.array([
     [57,33,132,268,492,732],
@@ -49,37 +94,49 @@ grid = np.array([
     [5,23,-4,592,445,620],
     [0,77,32,403,337,452]
 ])
-die = np.array([
-  ['c','d','-'],
-  ['e','a','f'],
-  ['-','b','-'],
-], dtype='<U3')
-face = (1,1)
-
 pos = (5,0)
 target = 732
-N = 1
+N = 0
 S = 0
 
 visited = grid.copy()
 visited.fill(False)
-visited[pos] = True
-to_visit = get_unvisited_adjacent(pos, visited)
-path = [(pos, die, S, visited)]
 
-placeholders = 'abcdef'
-while grid[pos] != target:
-  next_pos = to_visit.pop()
-  value = grid[next_pos]
+current = State(pos, die, visited, N)
+to_visit = [current] # stack of states
 
-  direction = (next_pos[0]-pos[0], next_pos[1]-pos[1])
-  next_die_state = step(die, direction)
+counter = 0
+while grid[current.pos] != target:
+    current = to_visit[-1]
+    current.visit()
 
-  # NOTE: Typical DFS might not work here since we need to actively backtrack and reverse the state
-  #   1. if a neighbor can be next (matches the rule) we append to the state stack
-  #   2. else if there are NO neighbors to matc the rule, we revert the current step and pop it off the state stack
-  #   3. we still keep track of to_visit at every state stack frame and when rolling back we remove from the stack frame's to_visit the node we are coming back from !  
-  N += 1
+    print('-'*50)
+    print(f'to_visit = {[s.S for s in to_visit]}')
+    print(f'counter = {counter}'); counter += 1
+    print(current)
+    time.sleep(.5)
+
+    if len(current.neighbours) == 0:
+        _ = to_visit.pop()
+        continue
+
+    while len(current.neighbours) > 0:
+        neighbour = current.neighbours.pop()
+        nstate = current.make_state_for_neighbour(neighbour)
+        if not current.visited[neighbour]:
+            face_value = (nstate.S - current.S) / nstate.N
+            if face_value % 1 != 0:
+                continue
+            else:
+                face_value = str(face_value).split('.')[0]
+            if not nstate.die[face] in die_vars:
+                value = nstate.die[face]
+                if value != face_value: continue
+            else:
+                nstate.die[face] = face_value
+            to_visit.append(nstate)
+
+
 
 
 
