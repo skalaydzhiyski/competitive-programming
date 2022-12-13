@@ -39,17 +39,15 @@ def get_adjacent(pos):
         and 0 <= y <= 5
     ]
 
-def is_valid_next_step(next_position, next_die_state, N, S):
-    face_value = str(int(face_value))
-    return next_die_state[face] in unassigned_die_sides\
-        or next_die_state[face] == face_value
-
 def get_valid_moves_from(current_move):
-    current_pos, die, N, S = current_move
-    adjacent = get_adjacent(current_pos)
+    current_position, die, N, S = current_move
+    adjacent = get_adjacent(current_position)
     valid = []
     for next_position in adjacent:
-        direction = (next_position[0] - current_pos[0], next_position[1] - current_pos[1])
+        direction = (
+            next_position[0] - current_position[0],
+            next_position[1] - current_position[1]
+        )
         next_die_state = tip(die, direction)
 
         face_value = (grid[next_position] - S) / (N+1)
@@ -106,30 +104,31 @@ grid = np.array([
 path = grid.copy().astype(str) # only used for visualisation
 marker = 'X'
 
-current_pos = (5,0)
-N = 0
-S = grid[current_pos]
-to_visit = [(current_pos, die, N, S)]
-
 target = 732
+current_position = (5,0)
+N = 0
+S = grid[current_position]
+to_visit = [(current_position, die, N, S)]
 
 if __name__ == '__main__':
     while True:
         current_move = to_visit.pop()
         current_position, _, _, _ = current_move
+
         path[current_position] = marker
         show_move(current_move, path)
-        time.sleep(.1)
 
-        if grid[current_move[0]] == target:
+        if grid[current_position] == target:
             print('done.')
             break
 
         valid_moves = get_valid_moves_from(current_move)
         if len(valid_moves) == 0:
+            # dead end
             continue
 
         to_visit += valid_moves
+        time.sleep(.1)
 
     non_visited = [
         int(val)
