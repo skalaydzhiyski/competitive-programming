@@ -1,12 +1,6 @@
 import numpy as np
 import time
 
-# move_mapping = {
-#     'u': (-1,0),
-#     'd': (1,0),
-#     'l': (0,-1),
-#     'r': (1,1),
-# }
 
 def swap(die, x, y):
     die[x], die[y] = die[y], die[x]
@@ -46,12 +40,12 @@ def get_adjacent(pos):
     ]
 
 def is_valid_next_step(next_position, next_die_state, N, S):
-
     face_value = str(int(face_value))
-    return next_die_state[face] in die_vars\
+    return next_die_state[face] in unassigned_die_sides\
         or next_die_state[face] == face_value
 
-def get_valid_moves_from(current_pos, die, N, S):
+def get_valid_moves_from(current_move):
+    current_pos, die, N, S = current_move
     adjacent = get_adjacent(current_pos)
     valid = []
     for next_position in adjacent:
@@ -63,7 +57,7 @@ def get_valid_moves_from(current_pos, die, N, S):
             continue
 
         face_value = str(int(face_value))
-        if next_die_state[face] in die_vars:
+        if next_die_state[face] in unassigned_die_sides:
             next_die_state[face] = face_value
         if next_die_state[face] != face_value:
             continue
@@ -78,16 +72,21 @@ def show_move(move, path):
     view = f'''
     pos={pos}, S={S}, N={N}
     ------------------------------------
-    {path[0,:].tolist()} | {die[0,:].tolist()}
-    {path[1,:].tolist()} | {die[1,:].tolist()}
-    {path[2,:].tolist()} | {die[2,:].tolist()}
-    {path[3,:].tolist()} | 
-    {path[4,:].tolist()} | 
-    {path[5,:].tolist()} | 
+    {path[0,:].tolist()}
+    {path[1,:].tolist()}
+    {path[2,:].tolist()}
+    {path[3,:].tolist()}
+    {path[4,:].tolist()}
+    {path[5,:].tolist()}
+    ---
+    {die[0,:].tolist()}
+    {die[1,:].tolist()}
+    {die[2,:].tolist()}
+    ------------------------------------
     '''
     print(view)
 
-die_vars = 'abcdef'
+unassigned_die_sides = 'abcdef'
 die = np.array([
     ['c','d','-'],
     ['e','a','f'],
@@ -105,22 +104,37 @@ grid = np.array([
     [0,77,32,403,337,452]
 ])
 path = grid.copy().astype(str) # only used for visualisation
+marker = 'X'
+
 current_pos = (5,0)
-target = 732
 N = 0
 S = grid[current_pos]
 to_visit = [(current_pos, die, N, S)]
 
-while grid[current_pos] != target:
-    current_move = to_visit.pop()
-    path[current_move[0]] = '*'
-    show_move(current_move, path)
-    time.sleep(1)
+target = 732
 
-    valid_moves = get_valid_moves_from(*current_move)
-    if len(valid_moves) == 0: continue
+if __name__ == '__main__':
+    while True:
+        current_move = to_visit.pop()
+        current_position, _, _, _ = current_move
+        path[current_position] = marker
+        show_move(current_move, path)
+        time.sleep(.1)
 
-    to_visit += valid_moves
+        if grid[current_move[0]] == target:
+            print('done.')
+            break
 
-  
+        valid_moves = get_valid_moves_from(current_move)
+        if len(valid_moves) == 0:
+            continue
 
+        to_visit += valid_moves
+
+    non_visited = [
+        int(val)
+        for row in path
+            for val in row if val != marker
+    ]
+    result = sum(non_visited)
+    print(result, non_visited)
