@@ -46,9 +46,7 @@ def get_adjacent(pos):
     ]
 
 def is_valid_next_step(next_position, next_die_state, N, S):
-    face_value = (grid[next_position] - S) / (N+1)
-    if face_value % 1 != 0:
-        return False
+
     face_value = str(int(face_value))
     return next_die_state[face] in die_vars\
         or next_die_state[face] == face_value
@@ -59,8 +57,17 @@ def get_valid_moves_from(current_pos, die, N, S):
     for next_position in adjacent:
         direction = (next_position[0] - current_pos[0], next_position[1] - current_pos[1])
         next_die_state = tip(die, direction)
-        if not is_valid_next_step(next_position, next_die_state, N, S):
+
+        face_value = (grid[next_position] - S) / (N+1)
+        if face_value % 1 != 0:
             continue
+
+        face_value = str(int(face_value))
+        if next_die_state[face] in die_vars:
+            next_die_state[face] = face_value
+        if next_die_state[face] != face_value:
+            continue
+
         valid.append(
             (next_position, next_die_state, N+1, grid[next_position])
         )
