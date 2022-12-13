@@ -65,7 +65,7 @@ def get_valid_moves_from(current_move):
         )
     return valid
 
-def show_move(move, path):
+def render(move, path):
     pos, die, N, S = move
     view = f'''
     pos={pos}, S={S}, N={N}
@@ -83,6 +83,7 @@ def show_move(move, path):
     ------------------------------------
     '''
     print(view)
+    path[path == 'X'] = 'x' # emphasise current
 
 unassigned_die_sides = 'abcdef'
 die = np.array([
@@ -116,7 +117,7 @@ if __name__ == '__main__':
         current_position, _, _, _ = current_move
 
         path[current_position] = marker
-        show_move(current_move, path)
+        render(current_move, path)
 
         if grid[current_position] == target:
             print('done.')
@@ -130,10 +131,6 @@ if __name__ == '__main__':
         to_visit += valid_moves
         time.sleep(.1)
 
-    non_visited = [
-        int(val)
-        for row in path
-            for val in row if val != marker
-    ]
-    result = sum(non_visited)
+    non_visited = path[(path != 'X') & (path != 'x')].astype(int)
+    result = non_visited.sum()
     print(result, non_visited)
