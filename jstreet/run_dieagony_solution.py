@@ -70,20 +70,20 @@ def render(move, path):
     view = f'''
     pos={pos}, S={S}, N={N}
     ------------------------------------
+    {die[0,:].tolist()}
+    {die[1,:].tolist()}
+    {die[2,:].tolist()}
+    ------------------------------------
     {path[0,:].tolist()}
     {path[1,:].tolist()}
     {path[2,:].tolist()}
     {path[3,:].tolist()}
     {path[4,:].tolist()}
     {path[5,:].tolist()}
-    ---
-    {die[0,:].tolist()}
-    {die[1,:].tolist()}
-    {die[2,:].tolist()}
     ------------------------------------
     '''
     print(view)
-    path[path == 'X'] = 'x' # emphasise current
+    path[path == marker] = visited_marker
 
 unassigned_die_sides = 'abcdef'
 die = np.array([
@@ -103,7 +103,7 @@ grid = np.array([
     [0,77,32,403,337,452]
 ])
 path = grid.copy().astype(str) # only used for visualisation
-marker = 'X'
+marker, visited_marker = 'X', 'x'
 
 target = 732
 current_position = (5,0)
@@ -131,6 +131,6 @@ if __name__ == '__main__':
         to_visit += valid_moves
         time.sleep(.1)
 
-    non_visited = path[(path != 'X') & (path != 'x')].astype(int)
+    non_visited = path[(path != marker) & (path != visited_marker)].astype(int)
     result = non_visited.sum()
     print(result, non_visited)
