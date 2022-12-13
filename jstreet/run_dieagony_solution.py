@@ -1,79 +1,71 @@
 import numpy as np
 import time
 
-class State:
-    def __init__(self, pos, die, visited, N):
-        self.pos = pos
-        self.die = die
-        self.visited = visited
-        self.neighbours = self._get_neighbour_positions()
-        self.S = grid[self.pos]
-        self.N = N
+def swap(die, x, y):
+    die[x], die[y] = die[y], die[x]
 
-    def visit(self):
-        self.visited[self.pos] = True
+def tip(die, direction):
+    res = die.copy()
+    if direction == (0, -1):
+        swap(res, left, bottom)
+        swap(res, face, left)
+        swap(res, face, right)
+    elif direction == (0, 1):
+        swap(res, right, bottom)
+        swap(res, face, right)
+        swap(res, face, left)
+    elif direction == (-1, 0):
+        swap(res, up, bottom)
+        swap(res, face, up)
+        swap(res, face, down)
+    elif direction == (1,0):
+        swap(res, down, bottom)
+        swap(res, face, down)
+        swap(res, face, up)
+    return res
 
-    def make_state_for_neighbour(self, npos):
-        direction = (
-            npos[0] - self.pos[0],
-            npos[1] - self.pos[1]
+def get_adjacent(pos):
+    directions = [
+        (pos[0] - 1, pos[1]    ),
+        (pos[0] + 1, pos[1]    ),
+        (pos[0],     pos[1] - 1),
+        (pos[0],     pos[1] + 1)
+    ]
+    return [
+        (x,y)
+        for x,y in directions
+        if 0 <= x <= 5
+        and 0 <= y <= 5
+    ]
+
+def is_valid_next_step(next_position, next_die_state, N, S):
+    face_value = (grid[next_position] - S) / (N+1)
+    if face_value % 1 != 0:
+        return False
+    face_value = str(int(face_value))
+    return next_die_state[face] in die_vars\
+        or next_die_state[face] == face_value
+
+def get_valid_moves_from(current_pos, die, N, S):
+    adjacent = get_adjacent(current_pos)
+    valid = []
+    for next_position in adjacent:
+        direction = (next_position[0] - current_pos[0], next_position[1] - current_pos[1])
+        next_die_state = tip(die, direction)
+        if not is_valid_next_step(next_position, next_die_state, N, S):
+            continue
+        valid.append(
+            (next_position, next_die_state, grid[next_position], N+1)
         )
-        next_die = self.tip(direction)
-        next_visited = self.visited.copy();
-        next_visited[npos] = True
-        return State(npos, next_die, next_visited, self.N + 1)
+    return valid
 
-    def tip(self, direction):
-        res = self.die.copy()
-        if direction == (0, -1):
-            self._swap(res, left, bottom)
-            self._swap(res, face, left)
-            self._swap(res, face, right)
-        elif direction == (0, 1):
-            self._swap(res, right, bottom)
-            self._swap(res, face, right)
-            self._swap(res, face, left)
-        elif direction == (-1, 0):
-            self._swap(res, up, bottom)
-            self._swap(res, face, up)
-            self._swap(res, face, down)
-        elif direction == (1,0):
-            self._swap(res, down, bottom)
-            self._swap(res, face, down)
-            self._swap(res, face, up)
-        return res
 
-    def _get_neighbour_positions(self):
-        return [
-            (x,y)
-            for x,y in [ # neighbours
-                (self.pos[0] - 1, self.pos[1]    ),
-                (self.pos[0] + 1, self.pos[1]    ),
-                (self.pos[0],     self.pos[1] - 1),
-                (self.pos[0],     self.pos[1] + 1)
-            ]
-            if 0 <= x <= 5
-            and 0 <= y <= 5
-        ]
-
-    def _swap(self, die, x, y):
-        die[x], die[y] = die[y], die[x]
-
-    def __repr__(self):
-        # slow but pretty
-        nvalues = [grid[pos] for pos in self.neighbours]
-        view = f'''
-        pos={self.pos}, S={self.S}, N={self.N}, neighbours={nvalues}
-        ------------------------------------
-        {self.visited[0,:].tolist()} | {self.die[0,:].tolist()}
-        {self.visited[1,:].tolist()} | {self.die[1,:].tolist()}
-        {self.visited[2,:].tolist()} | {self.die[2,:].tolist()}
-        {self.visited[3,:].tolist()} | 
-        {self.visited[4,:].tolist()} | 
-        {self.visited[5,:].tolist()} | 
-        '''
-        view = '\n'.join(map(str.strip, view.split('\n')))
-        return view
+move_mapping = {
+    'u': (-1,0),
+    'd': (1,0),
+    'l': (0,-1),
+    'r': (1,1),
+}
 
 die_vars = 'abcdef'
 die = np.array([
@@ -92,55 +84,31 @@ grid = np.array([
     [5,23,-4,592,445,620],
     [0,77,32,403,337,452]
 ])
-pos = (5,0)
+path = grid.copy().astype(str) # only used for visualisation
+current_pos = (5,0)
 target = 732
 N = 0
-S = 0
+S = grid[current_pos]
+to_visit = [(current_pos, die, N, S)]
 
-visited = grid.copy()
-visited.fill(False)
+while grid[current_pos] != target:
+    #print(current_pos, S, N)
+    #print(die)
+    #print(path)
+    #print(grid[current_pos])
+    current_move = to_visit.pop()
+    valid_moves = get_valid_moves_from(*current_move)
 
-current = State(pos, die, visited, N)
-to_visit = [current] # stack of states
+    if len(valid_moves) == 0:
+        # continue
+        pass
+    elif len(valid_moves) == 1:
+        # make the move
+        pass
+    else: # more than one valid move
+        # push all to the stack
+        print('something')
+        pass
 
-counter = 0
-while grid[current.pos] != target:
-    current = to_visit[-1]
-    current.visit()
-
-    print('-'*50)
-    print(f'to_visit = {[s.S for s in to_visit]}')
-    print(f'counter = {counter}'); counter += 1
-    print(current)
-    time.sleep(.1)
-
-    if len(current.neighbours) == 0:
-        _ = to_visit.pop()
-        continue
-
-    while len(current.neighbours) > 0:
-        neighbour = current.neighbours.pop()
-        nstate = current.make_state_for_neighbour(neighbour)
-        if not current.visited[neighbour]:
-            face_value = (nstate.S - current.S) / nstate.N
-            if face_value % 1 != 0:
-                print(f"""IMPORTANT! face_value NOT A WHOLE NUMBER, skip adding {nstate.S}
-                    ({nstate.S} - {current.S}) / {nstate.N} = {face_value}
-                    """)
-                continue
-            else:
-                face_value = str(face_value).split('.')[0]
-            if not nstate.die[face] in die_vars:
-                value = nstate.die[face]
-                if value != face_value: continue
-                print(f"""IMPORTANT! DIE MISMATCH, skip adding {nstate.S}
-                    ({nstate.S} - {current.S}) / {nstate.N} = {face_value} (should be {value})
-                    """)
-            else:
-                nstate.die[face] = face_value
-            to_visit.append(nstate)
-
-
-
-
+  
 
