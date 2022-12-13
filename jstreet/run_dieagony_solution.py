@@ -1,6 +1,13 @@
 import numpy as np
 import time
 
+# move_mapping = {
+#     'u': (-1,0),
+#     'd': (1,0),
+#     'l': (0,-1),
+#     'r': (1,1),
+# }
+
 def swap(die, x, y):
     die[x], die[y] = die[y], die[x]
 
@@ -55,17 +62,23 @@ def get_valid_moves_from(current_pos, die, N, S):
         if not is_valid_next_step(next_position, next_die_state, N, S):
             continue
         valid.append(
-            (next_position, next_die_state, grid[next_position], N+1)
+            (next_position, next_die_state, N+1, grid[next_position])
         )
     return valid
 
-
-move_mapping = {
-    'u': (-1,0),
-    'd': (1,0),
-    'l': (0,-1),
-    'r': (1,1),
-}
+def show_move(move, path):
+    pos, die, N, S = move
+    view = f'''
+    pos={pos}, S={S}, N={N}
+    ------------------------------------
+    {path[0,:].tolist()} | {die[0,:].tolist()}
+    {path[1,:].tolist()} | {die[1,:].tolist()}
+    {path[2,:].tolist()} | {die[2,:].tolist()}
+    {path[3,:].tolist()} | 
+    {path[4,:].tolist()} | 
+    {path[5,:].tolist()} | 
+    '''
+    print(view)
 
 die_vars = 'abcdef'
 die = np.array([
@@ -92,23 +105,15 @@ S = grid[current_pos]
 to_visit = [(current_pos, die, N, S)]
 
 while grid[current_pos] != target:
-    #print(current_pos, S, N)
-    #print(die)
-    #print(path)
-    #print(grid[current_pos])
     current_move = to_visit.pop()
-    valid_moves = get_valid_moves_from(*current_move)
+    path[current_move[0]] = '*'
+    show_move(current_move, path)
+    time.sleep(1)
 
-    if len(valid_moves) == 0:
-        # continue
-        pass
-    elif len(valid_moves) == 1:
-        # make the move
-        pass
-    else: # more than one valid move
-        # push all to the stack
-        print('something')
-        pass
+    valid_moves = get_valid_moves_from(*current_move)
+    if len(valid_moves) == 0: continue
+
+    to_visit += valid_moves
 
   
 
