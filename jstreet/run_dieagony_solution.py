@@ -129,6 +129,9 @@ if __name__ == '__main__':
         to_visit += valid_moves
         time.sleep(.1)
 
-    non_visited = path[(path != marker) & (path != visited_marker)].astype(int)
+    non_visited = path[
+        (path != marker) &
+        (path != visited_marker)
+    ].astype(int)
     result = non_visited.sum()
     print(result, non_visited)
