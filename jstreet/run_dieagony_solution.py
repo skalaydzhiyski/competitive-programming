@@ -25,12 +25,12 @@ def tip(die, direction):
         swap(res, face, up)
     return res
 
-def get_adjacent(pos):
+def get_all_adjacent_to(current_position):
     directions = [
-        (pos[0] - 1, pos[1]    ),
-        (pos[0] + 1, pos[1]    ),
-        (pos[0],     pos[1] - 1),
-        (pos[0],     pos[1] + 1)
+        (current_position[0] - 1, current_position[1]    ),
+        (current_position[0] + 1, current_position[1]    ),
+        (current_position[0],     current_position[1] - 1),
+        (current_position[0],     current_position[1] + 1)
     ]
     return [
         (x,y)
@@ -41,7 +41,7 @@ def get_adjacent(pos):
 
 def get_valid_moves_from(current_move):
     current_position, die, N, S = current_move
-    adjacent = get_adjacent(current_position)
+    adjacent = get_all_adjacent_to(current_position)
     valid = []
     for next_position in adjacent:
         direction = (
@@ -51,7 +51,7 @@ def get_valid_moves_from(current_move):
         next_die_state = tip(die, direction)
 
         face_value = (grid[next_position] - S) / (N+1)
-        if face_value % 1 != 0:
+        if face_value % 1 != 0: # assume integers only
             continue
 
         face_value = str(int(face_value))
