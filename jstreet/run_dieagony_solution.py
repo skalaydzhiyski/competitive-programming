@@ -85,14 +85,6 @@ def render(move, path):
     print(view)
     path[path == marker] = visited_marker
 
-unassigned_die_sides = 'abcdef'
-die = np.array([
-    ['c','d','-'],
-    ['e','a','f'],
-    ['-','b','-'],
-], dtype='<U3')
-face, bottom          = (1,1), (0,0)
-left, right, up, down = (1,0), (1,2), (0,1), (2,1)
 
 grid = np.array([
     [57,33,132,268,492,732],
@@ -102,30 +94,36 @@ grid = np.array([
     [5,23,-4,592,445,620],
     [0,77,32,403,337,452]
 ])
-path = grid.copy().astype(str) # only used for visualisation
+die = np.array([
+    ['c','d','-'],
+    ['e','a','f'],
+    ['-','b','-'],
+], dtype='<U3')
+face, bottom = (1,1), (0,0)
+left, right, up, down = (1,0), (1,2), (0,1), (2,1)
+unassigned_die_sides = 'abcdef'
+
+# only used for viz
+path = grid.copy().astype(str)
 marker, visited_marker = 'X', 'x'
 
+N = S = 0
 target = 732
 current_position = (5,0)
-N = 0
-S = grid[current_position]
 to_visit = [(current_position, die, N, S)]
 
 if __name__ == '__main__':
     while True:
         current_move = to_visit.pop()
         current_position, _, _, _ = current_move
-
         path[current_position] = marker
         render(current_move, path)
 
         if grid[current_position] == target:
-            print('done.')
             break
 
         valid_moves = get_valid_moves_from(current_move)
         if len(valid_moves) == 0:
-            # dead end
             continue
 
         to_visit += valid_moves
