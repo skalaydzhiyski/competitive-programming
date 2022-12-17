@@ -112,12 +112,28 @@ target = 732
 current_position = (5,0)
 to_visit = [(current_position, die, N, S)]
 
+store = []
+
 if __name__ == '__main__':
     while True:
         current_move = to_visit.pop()
-        current_position, _, _, _ = current_move
+        old_N = N
+        current_position, die, N, S = current_move
+        path = grid.copy().astype(str)
+        for pos,n,_ ,_ in store:
+            path[pos] = visited_marker
         path[current_position] = marker
         render(current_move, path)
+
+        store.append((current_position, N, die, grid[current_position]))
+
+        if old_N >= N:
+            store = [s for s in store if s[1] <= N]
+            to_remove = []
+            for x in range(len(store)-1):
+                if store[x][1] == store[x+1][1]:
+                    to_remove.append(x)
+            store = [s for i, s in enumerate(store) if i not in to_remove]
 
         if grid[current_position] == target:
             break
@@ -135,3 +151,6 @@ if __name__ == '__main__':
     ].astype(int)
     result = non_visited.sum()
     print(result, non_visited)
+
+    
+
