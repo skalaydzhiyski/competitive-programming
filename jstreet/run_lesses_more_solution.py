@@ -36,7 +36,7 @@ def get_max_perm(x):
 
 
 t0 = time.time()
-upper = 100
+upper = 10
 m = 0
 
 res_data = []
@@ -56,9 +56,9 @@ for b in range(upper):
         dc = abs(c-d)
         db = abs(b-c)
         print('(a,b,c,d) =', x, '\tfx = ', fx, '\tdistances =', r, '\tcurrent max =', m, 'MAX !')
-
+      else:
+        print('(a,b,c,d) =', x, '\tfx = ', fx, '\tdistances =', r, '\tcurrent max =', m)
       res_data.append((x, r, fx, m))
-      #print('(a,b,c,d) =', x, '\tfx = ', fx, '\tdistances =', r, '\tcurrent max =', m)
       #time.sleep(.01)
 print(time.time() - t0)
 
