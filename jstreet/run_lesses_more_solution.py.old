@@ -1,6 +1,5 @@
-import pandas as pd
-from itertools import permutations
 import time
+from itertools import permutations
 
 def step(corners):
   return [
@@ -34,34 +33,29 @@ def get_max_perm(x):
       res = p
   return res
 
+# -------------------------------------------------------------------------
 
 t0 = time.time()
-upper = 100
+upper = 20
 m = 0
 
-res_data = []
+res = []
 a = 0
 db, dc = 0,0
-#for a in range(upper):
 for b in range(upper):
-  #for c in range(b+db, upper):
-  for c in range(upper):
-    #for d in range(c+dc, upper):
-    for d in range(upper):
+  for c in range(b+db, upper):
+    for d in range(c+dc, upper):
       x = [a,b,c,d]
+      #max_perm = get_max_perm(x)
       r = (abs(a-b), abs(b-c), abs(c-d), abs(d-a))
       fx = f(x)
       if fx > m:
         m = fx
+        res.append(r)
         dc = abs(c-d)
         db = abs(b-c)
-        print('(a,b,c,d) =', x, '\tfx = ', fx, '\tdistances =', r, '\tcurrent max =', m, 'MAX !')
-
-      res_data.append((x, r, fx, m))
-      #print('(a,b,c,d) =', x, '\tfx = ', fx, '\tdistances =', r, '\tcurrent max =', m)
-      #time.sleep(.01)
+        #print('(a,b,c,d) =', x, ' | fx = ', fx, ' | perm = ', max_perm, ' | fx = ', f(max_perm), ' | distances =', r)
+      print('(a,b,c,d) =', x, '\tfx = ', fx, '\tdistances =', r, '\current max =', m)
+      time.sleep(.01)
 print(time.time() - t0)
-
-res = pd.DataFrame(res_data, columns=['tuple', 'dist', 'fx', 'm'])
-del res_data
 
