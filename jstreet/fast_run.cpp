@@ -29,7 +29,7 @@ int main(void) {
   int m = 0;
   int db = 0;
   int dc = 0;
-  int upper = 1000;
+  int upper = 100;
   int x[4] = {0,1,2,4};
   //printf("%d\n", f(x, true));
   int i = 0;
