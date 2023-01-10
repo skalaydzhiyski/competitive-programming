@@ -36,30 +36,29 @@ def get_max_perm(x):
 
 
 t0 = time.time()
-upper = 10
+upper = 50
 m = 0
 
 res_data = []
-a = 0
+#a = 0
 db, dc = 0,0
-#for a in range(upper):
-for b in range(upper):
-  #for c in range(b+db, upper):
-  for c in range(upper):
-    #for d in range(c+dc, upper):
-    for d in range(upper):
-      x = [a,b,c,d]
-      r = (abs(a-b), abs(b-c), abs(c-d), abs(d-a))
-      fx = f(x)
-      if fx > m:
-        m = fx
-        dc = abs(c-d)
-        db = abs(b-c)
-        print('(a,b,c,d) =', x, '\tfx = ', fx, '\tdistances =', r, '\tcurrent max =', m, 'MAX !')
-      else:
-        print('(a,b,c,d) =', x, '\tfx = ', fx, '\tdistances =', r, '\tcurrent max =', m)
-      res_data.append((x, r, fx, m))
-      #time.sleep(.01)
+for a in range(upper):
+  for b in range(upper):
+    #for c in range(b+db, upper):
+    for c in range(upper):
+      #for d in range(c+dc, upper):
+      for d in range(upper):
+        x = [a,b,c,d]
+        r = (abs(a-b), abs(b-c), abs(c-d), abs(d-a))
+        fx = f(x)
+        if fx > m:
+          m = fx
+          dc = abs(c-d)
+          db = abs(b-c)
+          print('(a,b,c,d) =', x, '\tfx = ', fx, '\tdistances =', r, '\tcurrent max =', m, 'MAX !')
+       # else: print('(a,b,c,d) =', x, '\tfx = ', fx, '\tdistances =', r, '\tcurrent max =', m)
+        res_data.append((x, r, fx, m))
+        #time.sleep(.01)
 print(time.time() - t0)
 
 res = pd.DataFrame(res_data, columns=['tuple', 'dist', 'fx', 'm'])
