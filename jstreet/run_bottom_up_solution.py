@@ -1,6 +1,5 @@
 import time
 
-
 def is_valid_square(current, prev):
   res = True
   for idx in range(4):
@@ -23,14 +22,20 @@ def get_next_options_for(current):
 # main loop
 t0 = time.time()
 upper = 10000000
+max_power = 24
 max_ = 2
 res = [0,0,0,0]
-for p in range(25):
+
+for p in range(max_power):
   m = 2
   current = [2**p for _ in range(4)]
   while current[-1] <= upper:
     options = get_next_options_for(current)
-    valid = [opt for opt in options if is_valid_square(opt, current)]
+    valid = [
+        opt
+        for opt in options
+        if is_valid_square(opt, current)
+    ]
     if len(valid):
       current = valid[0]
       m += 1
@@ -40,7 +45,6 @@ for p in range(25):
       max_ = m
       res = current
       print('current:', current, ', m:', m, ', base', 2**p)
-    #time.sleep(1)
   m = 2
 
 print('\nSOLUTION')
