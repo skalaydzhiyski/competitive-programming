@@ -1,5 +1,6 @@
 import time
 
+
 def is_valid_square(current, prev):
   res = True
   for idx in range(4):
