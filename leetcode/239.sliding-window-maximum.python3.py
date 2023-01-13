@@ -16,6 +16,3 @@ class Solution:
             if idx >= k-1:
                 res.append(nums[q[0]])
         return res
-
-
-
