@@ -22,3 +22,21 @@ class Solution:
             return current
 
         return dfs(root, -999999999)
+
+class SolutionIter:
+    def goodNodes(self, root: TreeNode) -> int:
+        if root is None:
+            return 0
+
+        current = 0
+        stack = [(root, -999999999)]
+        while stack:
+            root, max_ = stack.pop()
+            if root.val >= max_:
+                max_ = root.val
+                current += 1
+            if root.left is not None:
+                stack.append((root.left, max_))
+            if root.right is not None:
+                stack.append((root.right, max_))
+        return current
