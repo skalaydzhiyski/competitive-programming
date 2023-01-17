@@ -8,9 +8,8 @@ class Solution:
     def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
         if root is None:
             return False
-        targetSum -= root.val
-        if root.left is None and root.right is None and targetSum == 0:
-            return True
+        if root.left is None and root.right is None:
+            return root.val - targetSum == 0
         hasleft  = self.hasPathSum(root.left, targetSum)
         hasright = self.hasPathSum(root.right, targetSum)
         return hasleft or hasright
