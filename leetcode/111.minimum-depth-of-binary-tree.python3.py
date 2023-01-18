@@ -8,10 +8,14 @@ class Solution:
     def minDepth(self, root: Optional[TreeNode]) -> int:
         if root is None:
             return 0
+
         current = 1
         left = self.minDepth(root.left)
         right = self.minDepth(root.right)
-        if left != 0 and right != 0:
-            return min(left, right)
-        return left or right
+
+        depth = min(left, right)
+        if not left or not right:
+            depth = left or right
+            
+        return current + depth
         
