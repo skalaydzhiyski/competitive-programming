@@ -7,7 +7,7 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        valid = (p,q)
+        valid = {p,q}
         if root is None or root in valid:
             return root
 
