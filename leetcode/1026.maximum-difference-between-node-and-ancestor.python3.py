@@ -22,28 +22,3 @@ class Solution:
             solve(root.right, min_, max_)
         solve(root, 999999, -9999999)
         return res
-
-
-# Original Solution
-class SolutionOrig:
-    def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
-        paths = []
-        def solve(root, path):
-            current = path + [root.val]
-            if not root.left and not root.right:
-                paths.append(current)
-                return
-            if root.left:
-                solve(root.left, current)
-            if root.right:
-                solve(root.right, current)
-        def max_diff(path):
-            max_ = -1
-            n = len(path)
-            for i in range(n):
-                for j in range(i+1, n):
-                    max_ = max(max_, abs(path[i] - path[j]))
-            return max_
-        solve(root, [])
-        return max(map(max_diff, paths))
-
