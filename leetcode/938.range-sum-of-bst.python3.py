@@ -6,6 +6,21 @@
 #         self.right = right
 class Solution:
     def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
+        res = 0
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if low <= node.val <= high:
+                res += node.val
+            if node.left and low < node.val:
+                stack.append(node.left)
+            if node.right and high > node.val:
+                stack.append(node.right)
+        return res
+
+
+class SolutionRec:
+    def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
         if root is None:
             return 0
         res = 0
