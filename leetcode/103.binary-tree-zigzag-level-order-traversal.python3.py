@@ -11,7 +11,6 @@ class Solution:
         if root is None:
             return []
 
-        flag = True
         levels = []
         q = deque([root])
         while q:
@@ -24,7 +23,6 @@ class Solution:
                 if node.right:
                     q.append(node.right)
             levels.append(level)
-            flag = not flag
 
         return [
             reversed(level) if idx % 2 else level
