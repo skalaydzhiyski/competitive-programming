@@ -11,9 +11,9 @@ class Solution:
         if root is None:
             return []
 
-        res = []
-        q = deque([root])
         flag = True
+        levels = []
+        q = deque([root])
         while q:
             level = []
             for _ in range(len(q)):
@@ -23,8 +23,10 @@ class Solution:
                     q.append(node.left)
                 if node.right:
                     q.append(node.right)
-
-            res.append( level if flag else reversed(level) )
+            levels.append(level)
             flag = not flag
 
-        return res
+        return [
+            reversed(level) if idx % 2 else level
+            for idx, level in enumerate(levels)
+        ]
