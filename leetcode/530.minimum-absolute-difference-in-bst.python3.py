@@ -13,6 +13,7 @@ class Solution:
             inorder(root.left)
             nodes.append(root.val)
             inorder(root.right)
+            
         inorder(root)
         return min([
             abs(left-right)
