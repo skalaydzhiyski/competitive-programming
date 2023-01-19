@@ -11,26 +11,18 @@ class Solution:
         if root is None:
             return []
 
-        levels = []
+        res = []
         q = deque([root])
+        flag = True
         while q:
             level = []
             for _ in range(len(q)):
                 node = q.popleft()
                 level.append(node.val)
-                if node.left:
-                    q.append(node.left)
-                if node.right:
-                    q.append(node.right)
-            levels.append(level)
+                if node.left: q.append(node.left)
+                if node.right: q.append(node.right)
 
-        res = []
-        flag = True
-        for level in levels:
-            current = []
-            iterator = level if flag else reversed(level)
-            for node in iterator:
-                current.append(node)
-            res.append(current)
+            res.append( level if flag else reversed(level) )
             flag = not flag
+
         return res
