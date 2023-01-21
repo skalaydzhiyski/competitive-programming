@@ -10,5 +10,5 @@ class Solution:
         nodes = inorder(root)
         return all([
             left < right
-            for left, right in zip(nodes[:-1], nodes[1:])
+            for left, right in zip(nodes, nodes[1:])
         ])
