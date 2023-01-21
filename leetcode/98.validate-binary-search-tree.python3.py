@@ -12,4 +12,3 @@ class Solution:
             left < right
             for left, right in zip(nodes[:-1], nodes[1:])
         ])
-        
