@@ -30,5 +30,4 @@ class SolutionRec:
             if target < root.val:
                 return solve(root.left, target, res)
             return solve(root.right, target, res)
-
         return solve(root, target, root.val)
