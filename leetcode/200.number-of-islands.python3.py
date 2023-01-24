@@ -20,8 +20,7 @@ class Solution:
             while to_visit:
                 current = to_visit.pop()
                 visited[current[0]][current[1]] = 1
-                next_ = get_neighbours_for(current)
-                to_visit += next_
+                to_visit += get_neighbours_for(current)
 
         res = 0
         for i in range(m):
