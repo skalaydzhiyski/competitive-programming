@@ -1,4 +1,4 @@
-from collections import defaultdict, deque
+from collections import defaultdict
 
 class Solution:
     def reachableNodes(self, n: int, edges: List[List[int]], restricted: List[int]) -> int:
@@ -9,9 +9,9 @@ class Solution:
 
         res = 0
         visited = set(restricted)
-        to_visit = deque([0])
+        to_visit = [0]
         while to_visit:
-            current = to_visit.popleft()
+            current = to_visit.pop()
             if current not in visited:
                 res += 1
             visited.add(current)
