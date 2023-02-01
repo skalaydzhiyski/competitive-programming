@@ -1,4 +1,22 @@
+from collections import defaultdict, deque
+
 class Solution:
     def reachableNodes(self, n: int, edges: List[List[int]], restricted: List[int]) -> int:
-        # TODO: continue here when you're coming back graphs.
-        pass
+        graph = defaultdict(list)
+        for left, right in edges:
+            graph[left].append(right)
+            graph[right].append(left)
+
+        res = 0
+        visited = set(restricted)
+        to_visit = deque([0])
+        while to_visit:
+            current = to_visit.popleft()
+            if current not in visited:
+                res += 1
+            visited.add(current)
+            to_visit += [
+                n for n in graph[current]
+                if n not in visited
+            ]
+        return res
