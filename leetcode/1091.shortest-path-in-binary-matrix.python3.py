@@ -18,6 +18,7 @@ class Solution:
         target = (N-1, N-1)
         res = []
 
+        res = []
         grid[0][0] = 1
         frame = (0,0)
         distance = 1
@@ -37,4 +38,4 @@ class Solution:
                 grid[n[0]][n[1]] = distance + 1
                 to_visit.append(n)
 
-        return -1 if len(res) == 0 else min(res)
+        return -1
