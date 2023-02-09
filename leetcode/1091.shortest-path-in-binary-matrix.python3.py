@@ -18,9 +18,10 @@ class Solution:
         )
 
         while to_visit:
-            cur_x, cur_y = to_visit.popleft()
-            visited.add((cur_x, cur_y))
-            
+            current = to_visit.popleft()
+            visited.add(current)
+
+            cur_x, cur_y = current
             distance = grid[cur_x][cur_y]
             if (cur_x, cur_y) == (N-1, N-1):
                 return distance
@@ -29,6 +30,9 @@ class Solution:
                 nx, ny = cur_x + dx, cur_y + dy
                 if valid(nx, ny):
                     to_visit.append((nx,ny))
-                    grid[nx][ny] = min(distance + 1, grid[nx][ny] or 9999)
+                    grid[nx][ny] = min(
+                        distance + 1,
+                        grid[nx][ny] or 9999
+                    )
         return -1
 
