@@ -6,36 +6,28 @@ class Solution:
         if grid[0][0] == 1 or grid[N-1][N-1] == 1:
             return -1
 
-        def get_neighbours_for(node):
-            i, j = node
-            return [
-                (i+1,j), (i-1,j),
-                (i,j+1), (i,j-1),
-                (i+1, j+1), (i+1,j-1),
-                (i-1,j-1), (i-1,j+1)
-            ]
-
-        target = (N-1, N-1)
-        res = []
-
-        res = []
+        visited = set()
+        to_visit = deque([ (0,0) ])
         grid[0][0] = 1
-        frame = (0,0)
-        distance = 1
-        to_visit = deque([frame])
-        while to_visit:
-            node = to_visit.popleft()
-            distance = grid[node[0]][node[1]]
-            if node == target:
-                return distance
-            neighbours = [
-                n for n in get_neighbours_for(node)
-                if 0 <= n[0] < N
-                and 0 <= n[1] < N
-                and grid[n[0]][n[1]] == 0
-            ]
-            for n in neighbours:
-                grid[n[0]][n[1]] = distance + 1
-                to_visit.append(n)
 
+        directions = [(1,0), (0,1), (-1,0), (0,-1), (1,1), (-1,-1), (1,-1), (-1,1)]
+        valid = lambda x,y: (
+            0 <= x < N and 0 <= y < N
+            and grid[x][y] == 0
+            and (x,y) not in visited
+        )
+
+        while to_visit:
+            cur_x, cur_y = to_visit.popleft()
+            visited.add(current)
+            distance = grid[cur_x][cur_y]
+            if (cur_x, cur_y) == (N-1, N-1):
+                return distance
+    
+            for dx, dy in directions:
+                nx, ny = cur_x + dx, cur_y + dy
+                if valid(nx, ny):
+                    to_visit.append((nx,ny))
+                    grid[nx][ny] = min(distance + 1, grid[nx][ny] or 9999)
         return -1
+
