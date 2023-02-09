@@ -19,7 +19,8 @@ class Solution:
 
         while to_visit:
             cur_x, cur_y = to_visit.popleft()
-            visited.add(current)
+            visited.add((cur_x, cur_y))
+            
             distance = grid[cur_x][cur_y]
             if (cur_x, cur_y) == (N-1, N-1):
                 return distance
