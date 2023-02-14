@@ -12,9 +12,6 @@ grid = np.array([
 	[0,0,0,0,0,1,0]
 ])
 
-
-number = 1280
-
 # NOTE: Think about the search space and how best to encode it.
 # 		Keep in mind that every row or col at any given point in time will have
 # 		only SOME numbers that can go into it so we need to generate this list of numbers
