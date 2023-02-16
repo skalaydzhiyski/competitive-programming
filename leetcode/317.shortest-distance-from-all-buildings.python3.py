@@ -8,10 +8,9 @@ class Solution:
         directions = [(1,0), (-1,0), (0,1), (0,-1)]
         in_bounds = lambda x,y: 0 <= x < m and 0 <= y < n
         houses = set()
-        total = deepcopy(grid)
+        total = [[0] * n for _ in range(m)]
         for i in range(m):
             for j in range(n):
-                total[i][j] = 0
                 if grid[i][j] == 1:
                     houses.add((i,j))
 
@@ -21,7 +20,6 @@ class Solution:
             to_visit = deque([ (house, 0) ])
             while to_visit:
                 (x,y), distance = to_visit.popleft()
-
                 for dx, dy in directions:
                     nx, ny = x + dx, y + dy
                     if in_bounds(nx, ny) and grid[nx][ny] == -visited_marker:
