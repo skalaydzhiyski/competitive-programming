@@ -22,13 +22,13 @@ class Solution:
                 (x,y), distance = to_visit.popleft()
                 for dx, dy in directions:
                     nx, ny = x + dx, y + dy
-                    if in_bounds(nx, ny) and grid[nx][ny] == -visited_marker:
+                    if in_bounds(nx, ny) and grid[nx][ny] == visited_marker:
                         total[nx][ny] += distance + 1
                         res = min(res, total[nx][ny])
                         grid[nx][ny] -= 1
                         to_visit.append( ((nx, ny), distance + 1) )
 
-            visited_marker += 1
+            visited_marker -= 1
             if res == math.inf:
                 return -1
         return res
