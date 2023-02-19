@@ -8,6 +8,22 @@ from collections import deque, defaultdict
 
 class Solution:
     def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        q = deque()
+        q += [root, root]
+        while q:
+            left, right = q.popleft(), q.popleft()
+            if (left, right) == (None, None):
+                continue
+            if left is None or right is None or left.val != right.val:
+                return False
+            q += [
+                left.left, right.right,
+                left.right, right.left
+            ]
+        return True
+
+class SolutionFirst:
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
         def invert(root):
             if root is None or (root.left is None and root.right is None):
                 return root
