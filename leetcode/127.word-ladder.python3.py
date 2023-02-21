@@ -2,6 +2,7 @@ from collections import deque, defaultdict
 import string
 
 class Solution:
+    # NOTE: There is a solution with BiDirectional BFS, but that is outside current scope.
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         if endWord not in wordList or not endWord or not beginWord or not wordList:
             return 0
@@ -19,7 +20,7 @@ class Solution:
             current, distance = to_visit.popleft()
             if current == endWord:
                 return distance
-                
+
             for i in range(N):
                 pattern = current[:i] + '*' + current[i+1:]
                 for word in m[pattern]:
