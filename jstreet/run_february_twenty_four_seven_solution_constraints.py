@@ -31,8 +31,28 @@ def check_single_component(graph):
         to_visit.append(next_)
   return len(component) == non_zero
 
-numbers_used_at_start = graph[graph != 0]
-print(numbers_used_at_start)
+def check_rows_and_cols_4sum20(graph):
+  for i in range(8):
+    if graph[:,i].sum() != 20:
+      return False
+    if graph[i,:].sum() != 20:
+      return False
+  return True
+
+def check_2x2(graph):
+  for i in range(6):
+    for j in range(6):
+      g = graph[i:i+2, j:j+2]
+      #print(g, g.all())
+      if g.all():
+        return False
+    #print()
+  return True
+
+def check_full(graph):
+  return check_rows_and_cols_4sum20(graph) and check_2x2(graph) and check_single_component(graph)
+
+store = {i:i-1 for i in range(1, 8)}
 
 print(store)
 print(check_full(graph))
