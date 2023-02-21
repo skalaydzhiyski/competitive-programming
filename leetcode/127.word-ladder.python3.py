@@ -17,11 +17,12 @@ class Solution:
         to_visit = deque([ (beginWord, 1) ])
         while to_visit:
             current, distance = to_visit.popleft()
+            if current == endWord:
+                return distance
+                
             for i in range(N):
                 pattern = current[:i] + '*' + current[i+1:]
                 for word in m[pattern]:
-                    if word == endWord:
-                        return distance + 1
                     if word not in visited:
                         visited.add(word)
                         to_visit.append( (word, distance + 1) )
