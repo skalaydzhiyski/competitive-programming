@@ -8,8 +8,8 @@ class Solution:
         current = 0
         iterator = head
         sent = iterator
-        head = head.next
-        while head:
+        while head.next:
+            head = head.next
             if head.val != 0:
                 current += head.val
             else:
@@ -17,6 +17,5 @@ class Solution:
                 iterator.next = node
                 iterator = iterator.next
                 current = 0
-            head = head.next
         return sent.next
         
