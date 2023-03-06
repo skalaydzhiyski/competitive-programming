@@ -18,7 +18,6 @@ class Solution:
                     break
             return True
 
-
         res = True
         for base in range(2, n-1):
             res &= is_palindrome(in_base(n, base))
