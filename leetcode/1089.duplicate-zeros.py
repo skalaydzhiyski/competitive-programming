@@ -12,7 +12,7 @@ class Solution:
         res += [arr[i]]
         l += 1
       else:
-        res += [arr[i], arr[i]]
+        res += [0, 0]
         l += 2
       i += 1
     for i in range(N):
