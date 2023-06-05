@@ -16,7 +16,7 @@ class Solution:
         l += 2
       i += 1
     for i in range(N):
-	    arr[i] = res[i]
+      arr[i] = res[i]
 
 
 
