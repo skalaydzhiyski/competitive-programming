@@ -2,7 +2,7 @@ class Solution:
     def lengthOfLongestSubstring(self, s):
       if n == 0: return 0
       n = len(s)
-      res, count = 1,1
+      res, count = 1, 1
       i, j = 0, 1
       m = set(m[i])
       while j<n:
